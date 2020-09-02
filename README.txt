@@ -3,13 +3,13 @@
 ## 项目架构为 Maven + SpringBoot + Mybatis
 前后端采用JSON作为交互数据格式，项目实现了图片视频的上传，实现了任务的发布及接受、评价，基于WebSocket的聊天功能、完成签到、发布动态、点赞关注、实名认证等操作。
 
-app
-	
-  config: 项目的配置类  
-		RedisConfig：redis的配置类
-		SimpleCORSFilter：项目过滤器配置类
-		WebMvcConfiguration: 项目拦截器的配置类
-		WebSocketConfig: 项目的WebSocket配置类
+    app： 
+        config: 项目的配置类  
+        RedisConfig：redis的配置类
+        SimpleCORSFilter：项目过滤器配置类
+        WebMvcConfiguration: 项目拦截器的配置类
+        WebSocketConfig: 项目的WebSocket配置类
+ 
     
 	controller: 项目的前端控制器
   
