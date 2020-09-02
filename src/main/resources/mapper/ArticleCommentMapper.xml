@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.ArticleCommentMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id,
+            </if>
+            <if test="content != null and content != ''">
+                content,
+            </if>
+            <if test="commentUserId != null and commentUserId != ''">
+                comment_user_id,
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                `praise_num`,
+            </if>
+            <if test="createTime != null and createTime">
+                `create_time`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                #{articleInfoId},
+            </if>
+            <if test="content != null and content != ''">
+                #{content},
+            </if>
+            <if test="commentUserId != null and commentUserId != ''">
+                #{commentUserId},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                #{praiseNum},
+            </if>
+            <if test="createTime != null and createTime">
+                #{createTime},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="ArticleComment">
+        select *
+        from article_comment
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="ArticleComment" parameterType="java.lang.String">
+        select *
+        from article_comment
+        where id = #{id}
+    </select>
+    <select id="selectByArticleInfoId" resultType="ArticleComment" parameterType="java.lang.String">
+        select *
+        from article_comment
+        where article_info_id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from article_comment
+    </select>
+
+    <!--    <insert id="insertInfo" parameterType="ArticleComment">-->
+    <!--        insert into article_comment (article_info_id, content, comment_user_id, praise_num)-->
+    <!--        values (#{articleInfoId},#{content},#{commentUserId},#{praiseNum});-->
+    <!--    </insert>-->
+    <insert id="insertInfo" parameterType="ArticleComment">
+        insert into article_comment (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="ArticleComment">
+        update article_comment
+        <trim prefix="set" suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id = #{articleInfoId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="commentUserId != null and commentUserId != ''">
+                comment_user_id = #{commentUserId},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                `praise_num` = #{praiseNum},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from article_comment
+        where id = #{id};
+    </delete>
+
+    <delete id="deleteByArticleId" parameterType="java.lang.String">
+        DELETE
+            ac,
+            ar
+        FROM article_comment ac
+                 LEFT JOIN article_reply ar ON ac.id = ar.comment_id
+        WHERE ac.id = #{id};
+    </delete>
+</mapper>

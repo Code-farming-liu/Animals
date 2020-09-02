@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.ArticleInfoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="content != null and content != ''">
+                content,
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                `update_user_id`,
+            </if>
+            <if test="updateDate != null">
+                `update_date`,
+            </if>
+            <if test="title != null and title != ''">
+                `title`,
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="isTop != null and isTop != ''">
+                `is_top`,
+            </if>
+            <if test="isOriginal != null and isOriginal != ''">
+                `is_original`,
+            </if>
+            <if test="isPrivate != null and isPrivate != ''">
+                `is_private`,
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                praise_num,
+            </if>
+            <if test="forwardNum != null and forwardNum != 0">
+                `forward_num`,
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                `pet_info_id`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                #{createUserId},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="content != null and content != ''">
+                #{content},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                #{updateUserId},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate},
+            </if>
+            <if test="title != null and title != ''">
+                #{title},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+            <if test="isTop != null and isTop != ''">
+                #{isTop},
+            </if>
+            <if test="isOriginal != null and isOriginal != ''">
+                #{isOriginal},
+            </if>
+            <if test="isPrivate != null and isPrivate != ''">
+                #{isPrivate},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                #{praiseNum},
+            </if>
+            <if test="forwardNum != null and forwardNum != 0">
+                #{forwardNum},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                #{petInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="ArticleInfo">
+        select *
+        from article_info
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="ArticleInfo" parameterType="java.lang.String">
+        select *
+        from article_info
+        where id = #{id};
+    </select>
+    <select id="selectArticleByPetInfoId" resultType="ArticleInfo" parameterType="java.lang.String">
+        select *
+        from article_info
+        where pet_info_id = #{petInfoId};
+    </select>
+    <select id="selectLastArticle" resultType="ArticleInfo">
+        SELECT *
+        FROM article_info
+        ORDER BY id DESC
+        LIMIT 1;
+    </select>
+    <select id="selectPraise" resultType="UserArticlePraise" parameterType="java.lang.String">
+        select *
+        from user_article_praise
+        where user_info_id = #{userId};
+    </select>
+    <select id="selectIsTopArticle" resultType="ArticleInfo" parameterType="int">
+        SELECT *
+        FROM article_info
+        ORDER BY praise_num DESC
+        LIMIT #{count};
+    </select>
+    <select id="selectArticleByCreateUserId" resultType="ArticleInfo" parameterType="java.lang.String">
+        SELECT *
+        FROM article_info
+        where create_user_id = #{userId};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from article_info
+    </select>
+    <insert id="insertInfo" parameterType="ArticleInfo">
+        insert into article_info (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="ArticleInfo">
+        update article_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                `update_user_id` = #{updateUserId},
+            </if>
+            <if test="updateDate != null and updateDate != ''">
+                `update_date` = #{updateDate},
+            </if>
+            <if test="title != null and title != ''">
+                `title` = #{title},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type},
+            </if>
+            <if test="isTop != null and isTop != ''">
+                `is_top` = #{isTop},
+            </if>
+            <if test="isOriginal != null and isOriginal != ''">
+                `is_original` = #{isOriginal},
+            </if>
+            <if test="isPrivate != null and isPrivate != ''">
+                `is_private` = #{isPrivate},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                praise_num = #{praiseNum},
+            </if>
+            <if test="forwardNum != null and forwardNum != 0">
+                `forward_num` = #{forwardNum},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                `pet_info_id` = #{petInfoId},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE
+            ai,
+            ap
+        FROM article_info ai
+                 LEFT JOIN article_photo ap ON ai.id = ap.article_info_id
+        WHERE ai.id = #{id};
+    </delete>
+</mapper>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserChatMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id,
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id,
+            </if>
+            <if test="content != null and content != ''">
+                content,
+            </if>
+            <if test="read != null and read != ''">
+                `read`,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="chatId != null and chatId != ''">
+                `chat_id`,
+            </if>
+            <if test="fromUserName != null and fromUserName != ''">
+                from_user_name,
+            </if>
+            <if test="toUserName != null and toUserName != ''">
+                to_user_name,
+            </if>
+
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                #{toUserId},
+            </if>
+            <if test="content != null and content != ''">
+                #{content},
+            </if>
+            <if test="read != null and read != ''">
+                #{read},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="chatId != null and chatId != ''">
+                #{chatId},
+            </if>
+            <if test="fromUserName != null and fromUserName != ''">
+                #{fromUserName},
+            </if>
+            <if test="toUserName != null and toUserName != ''">
+                #{toUserName},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectByChatId" resultType="UserChat" parameterType="java.lang.String">
+        select *
+        from user_chat
+        where chat_id = #{id}
+    </select>
+    <select id="selectByUserId" resultType="UserChat" parameterType="java.lang.String">
+        select *
+        from user_chat
+        where from_user_id = #{userId}
+           or to_user_id = #{userId}
+    </select>
+    <select id="selectAboutChatByFromId" resultType="UserChat" parameterType="java.lang.String">
+        select *
+        from user_chat
+        where from_user_id = #{fromUserId}
+    </select>
+    <select id="selectAboutChatByToId" resultType="UserChat" parameterType="java.lang.String">
+        select *
+        from user_chat
+        where to_user_id = #{toUserId}
+    </select>
+    <select id="selectLastByChatId" resultType="UserChat" parameterType="java.lang.String">
+        select *
+        from user_chat
+        where chat_id = #{chatId}
+        ORDER BY create_time DESC
+        LIMIT 1;
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from user_chat
+    </select>
+    <select id="selectAll" resultType="UserChat">
+        select *
+        from user_chat
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" parameterType="java.lang.String" resultType="UserChat">
+        select *
+        from user_chat
+        where id = #{id}
+    </select>
+    <insert id="insertInfo" parameterType="UserChat">
+        insert into user_chat (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateByChatId" parameterType="UserChat">
+        update user_chat
+        <trim prefix="set" suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id = #{toUserId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="read != null and read != ''">
+                `read` = #{read},
+            </if>
+            <if test="chatId != null and chatId != ''">
+                `chat_id` = #{chatId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </trim>
+        where chat_id = #{chatId}
+    </update>
+    <update id="updateById" parameterType="UserChat">
+        update user_chat
+        <trim prefix="set" suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id = #{fromUserId}
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id = #{toUserId}
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content}
+            </if>
+            <if test="read != null and read != ''">
+                `read` = #{read}
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime}
+            </if>
+        </trim>
+        where id = #{id};
+    </update>
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_chat
+        where chat_id = #{id};
+    </delete>
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.SysCountOfDayMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id,
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id,
+            </if>
+            <if test="count != null and count != ''">
+                `count`,
+            </if>
+            <if test="createTime != null">
+                `create_time`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                #{articleInfoId},
+            </if>
+            <if test="userId != null and userId != ''">
+                #{userId},
+            </if>
+            <if test="count != null and count != ''">
+                #{count},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="SysCountOfDay">
+        select *
+        from sys_count_of_day
+        limit #{page},#{num};
+    </select>
+    <select id="selectById"  parameterType="java.lang.String">
+        select *
+        from sys_count_of_day
+        where `id` = #{id}
+    </select>
+    <select id="selectByUserId"  parameterType="java.lang.String" resultType="SysCountOfDay">
+        select *
+        from sys_count_of_day
+        where `user_id` = #{userId}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from sys_count_of_day
+    </select>
+
+    <insert id="insertInfo" parameterType="SysCountOfDay">
+        insert into sys_count_of_day (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="SysCountOfDay">
+        update sys_count_of_day
+        <trim prefix="set" suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id = #{articleInfoId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="count != null and count != ''">
+                `count` = #{count},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                `create_time` = #{createTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from sys_count_of_day
+        where id = #{id};
+    </delete>
+
+    <delete id="truncate">
+        truncate table sys_count_of_day;
+    </delete>
+</mapper>

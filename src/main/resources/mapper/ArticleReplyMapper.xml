@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.ArticleReplyMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="commentId != null and commentId != ''">
+                comment_id,
+            </if>
+            <if test="content != null and content != ''">
+                content,
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id,
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                `praise_num`,
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                `to_user_id`,
+            </if>
+            <if test="createTime != null and createTime">
+                create_time,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="commentId != null and commentId != ''">
+                #{commentId},
+            </if>
+            <if test="content != null and content != ''">
+                #{content},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                #{fromUserId},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                #{praiseNum},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                #{toUserId},
+            </if>
+            <if test="createTime != null and createTime">
+                #{createTime},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="ArticleReply">
+        select *
+        from article_reply
+        limit #{page},#{num};
+    </select>
+    <select id="selectByCommentId" resultType="ArticleReply" parameterType="java.lang.String">
+        select *
+        from article_reply
+        where comment_id = #{commentId}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from article_reply
+    </select>
+    <select id="selectById" parameterType="java.lang.String" resultType="ArticleReply">
+        select *
+        from article_reply
+        where id = #{id}
+    </select>
+
+    <insert id="insertInfo" parameterType="ArticleReply">
+        insert into article_reply (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="ArticleReply">
+        update article_reply
+        <trim prefix="set" suffixOverrides=",">
+            <if test="commentId != null and commentId != ''">
+                comment_id = #{commentId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="praiseNum != null and praiseNum != 0">
+                `praise_num` = #{praiseNum},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id = #{toUserId},
+            </if>
+        </trim>
+        where id = #{id};
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from article_reply
+        where id = #{id};
+    </delete>
+    <delete id="deleteByCommentId" parameterType="java.lang.String">
+        delete
+        from article_reply
+        where comment_id = #{id};
+    </delete>
+</mapper>

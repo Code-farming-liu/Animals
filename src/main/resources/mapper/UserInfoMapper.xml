@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserInfoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="isPersonal != null and isPersonal != ''">
+                is_personal,
+            </if>
+            <if test="password != null and password != ''">
+                `password`,
+            </if>
+            <if test="phone != null and phone != ''">
+                phone,
+            </if>
+            <if test="address != null and address != ''">
+                address,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="sex != null and sex != ''">
+                sex,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="job != null and job != ''">
+                job,
+            </if>
+            <if test="integral != null and integral != 0">
+                integral,
+            </if>
+            <if test="vip != null and vip != ''">
+                vip,
+            </if>
+            <if test="vipStartDate != null and vipStartDate != '' ">
+                vip_start_date,
+            </if>
+            <if test="vipEndDate != null and vipEndDate != ''">
+                vip_end_date,
+            </if>
+            <if test="photo != null and photo != ''">
+                photo,
+            </if>
+            <if test="qq != null and qq != ''">
+                qq,
+            </if>
+            <if test="wx != null and vx != ''">
+                wx,
+            </if>
+            <if test="isAuthentication != null and isAuthentication != ''">
+                is_authentication,
+            </if>
+            <if test="email != null and email != ''">
+                email,
+            </if>
+            <if test="description != null and description != ''">
+                `description`,
+            </if>
+<!--            <if test="userInfoId != null and userInfoId != ''">-->
+<!--                `user_info_id`,-->
+<!--            </if>-->
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="username != null and username != ''">
+                #{username},
+            </if>
+            <if test="isPersonal != null and isPersonal != ''">
+                #{isPersonal},
+            </if>
+            <if test="password != null and password != ''">
+                #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>
+            <if test="address != null and address != ''">
+                #{address},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="sex != null and sex != ''">
+                #{sex},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="job != null and job != ''">
+                #{job},
+            </if>
+            <if test="integral != null and integral != 0">
+                #{integral},
+            </if>
+            <if test="vip != null and vip != ''">
+                #{vip},
+            </if>
+            <if test="vipStartDate != null and vipStartDate != '' ">
+                #{vipStartDate},
+            </if>
+            <if test="vipEndDate != null and vipEndDate != ''">
+                #{vipEndDate},
+            </if>
+            <if test="photo != null and photo != ''">
+                #{photo},
+            </if>
+            <if test="qq != null and qq != ''">
+                #{qq},
+            </if>
+            <if test="wx != null and vx != ''">
+                #{wx},
+            </if>
+            <if test="isAuthentication != null and isAuthentication != ''">
+                #{isAuthentication},
+            </if>
+            <if test="email != null and email != ''">
+                #{email},
+            </if>
+            <if test="description != null and description != ''">
+                #{description},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="UserInfo">
+        select *
+        from user_info
+        limit #{page},#{num};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from user_info
+    </select>
+    <select id="selectByUsername" resultType="UserInfo" parameterType="java.lang.String">
+        select *
+        from user_info
+        where username = #{username}
+    </select>
+    <select id="selectByPhone" resultType="UserInfo" parameterType="java.lang.String">
+        select *
+        from user_info
+        where phone = #{phone}
+    </select>
+    <select id="selectByEmail" resultType="UserInfo" parameterType="java.lang.String">
+        select *
+        from user_info
+        where email = #{email}
+    </select>
+    <select id="selectById" resultType="UserInfo" parameterType="java.lang.String">
+        select *
+        from user_info
+        where id = #{id}
+    </select>
+    <select id="selectFollow" resultType="UserFollow" parameterType="java.lang.String">
+        select *
+        from user_follow
+        where fan_user_id = #{userId}
+    </select>
+    <select id="selectFan" resultType="UserFollow" parameterType="java.lang.String">
+        select *
+        from user_follow
+        where follow_user_id = #{id}
+    </select>
+    <select id="selectEndInfo" resultType="UserInfo">
+        SELECT
+            *
+        FROM
+            user_info
+        ORDER BY
+            id DESC
+        LIMIT 1;
+
+    </select>
+    <insert id="insertInfo" parameterType="UserInfo">
+        insert into user_info (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateById" parameterType="UserInfo">
+        update user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="isPersonal != null and isPersonal != ''">
+                is_personal = #{isPersonal},
+            </if>
+            <if test="password != null and password != ''">
+                `password` = #{password},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="address != null and address != ''">
+                address = #{address},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="integral != null and integral != 0">
+                integral = #{integral},
+            </if>
+            <if test="vip != null and vip != ''">
+                vip = #{vip},
+            </if>
+            <if test="vipStartDate != null and vipStartDate != '' ">
+                vip_start_date = #{vipStartDate},
+            </if>
+            <if test="vipEndDate != null and vipEndDate != ''">
+                vip_end_date = #{vipEndDate},
+            </if>
+            <if test="photo != null and photo != ''">
+                photo = #{photo},
+            </if>
+            <if test="qq != null and qq != ''">
+                qq = #{qq},
+            </if>
+            <if test="wx != null and vx != ''">
+                wx = #{wx},
+            </if>
+            <if test="isAuthentication != null and isAuthentication != ''">
+                is_authentication = #{isAuthentication},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="description != null and description != ''">
+                `description` = #{description},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_info
+        where id = #{id};
+    </delete>
+</mapper>

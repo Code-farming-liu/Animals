@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserArticlePraiseMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id,
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                user_info_id,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                #{articleInfoId},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                #{userInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="UserArticlePraise">
+        select *
+        from user_article_praise
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="UserArticlePraise" parameterType="java.lang.String">
+        select *
+        from user_article_praise
+        where id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_habit
+    </select>
+    <insert id="insertInfo" parameterType="UserArticlePraise">
+        insert into user_article_praise (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="UserArticlePraise">
+        update user_article_praise
+        <trim prefix="set" suffixOverrides=",">
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id = #{articleInfoId},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                user_info_id = #{userInfoId},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_article_praise
+        where id = #{id};
+    </delete>
+
+    <delete id="deleteByArticleId" parameterType="UserArticlePraise">
+        delete
+        from user_article_praise
+        where article_info_id = #{articleInfoId};
+    </delete>
+
+    <delete id="deletePraiseNum" parameterType="UserArticlePraise">
+        delete
+        from user_article_praise
+        where article_info_id = #{articleInfoId}
+          and user_info_id = #{userInfoId};
+    </delete>
+</mapper>

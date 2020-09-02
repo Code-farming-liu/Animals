@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.PetTaskPhotoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="petTaskId != null and petTaskId != ''">
+                pet_task_id,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+            <if test="photo != null and photo != ''">
+                photo,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="petTaskId != null and petTaskId != ''">
+                #{petTaskId},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+            <if test="photo != null and photo != ''">
+                #{photo},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="PetTaskPhoto">
+        select *
+        from pet_task_photo
+        limit #{page},#{num};
+    </select>
+    <select id="selectByPetTaskId" resultType="PetTaskPhoto" parameterType="java.lang.String">
+        select *
+        from pet_task_photo
+        where pet_task_id = #{petTaskId} and type = #{type};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_task_photo
+    </select>
+    <insert id="insertInfo" parameterType="PetTaskPhoto">
+        insert into pet_task_photo (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="PetTaskPhoto">
+        update pet_task_photo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="petTaskId != null and petTaskId != ''">
+                pet_task_id = #{petTaskId},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="photo != null and photo != ''">
+                photo = #{photo},
+            </if>
+        </trim>
+        where pet_task_id = #{petTaskId} and type = #{type}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from pet_task_photo
+        where id = #{id};
+    </delete>
+
+</mapper>

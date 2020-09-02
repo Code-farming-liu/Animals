@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.PetPhotoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="photo != null and photo != ''">
+                photo,
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                pet_info_id,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="photo != null and photo != ''">
+                #{photo},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                #{petInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="PetPhoto">
+        select *
+        from pet_photo
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="PetPhoto" parameterType="java.lang.String">
+        select *
+        from pet_photo
+        where id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_photo
+    </select>
+    <select id="selectByPetInfoId" resultType="PetPhoto">
+        select *
+        from pet_photo
+        where pet_info_id = #{id}
+    </select>
+    <insert id="insertInfo" parameterType="PetPhoto">
+        insert into pet_photo (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="PetPhoto">
+        update pet_photo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="photo != null and photo != ''">
+                photo = #{photo},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                pet_info_id = #{petInfoId},
+            </if>
+        </trim>
+        where pet_info_id = #{petInfoId}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from pet_photo
+        where id = #{id};
+    </delete>
+
+</mapper>

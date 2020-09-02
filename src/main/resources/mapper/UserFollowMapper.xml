@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserFollowMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="followUserId != null and followUserId != ''">
+                follow_user_id,
+            </if>
+            <if test="fanUserId != null and fanUserId != ''">
+                fan_user_id,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="followUserId != null and followUserId != ''">
+                #{followUserId},
+            </if>
+            <if test="fanUserId != null and fanUserId != ''">
+                #{fanUserId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="UserFollow">
+        select *
+        from user_follow
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="UserFollow" parameterType="java.lang.String">
+        select *
+        from user_follow
+        where id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_habit
+    </select>
+    <insert id="insertInfo" parameterType="UserFollow">
+        insert into user_follow (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="UserFollow">
+        update user_follow
+        <trim prefix="set" suffixOverrides=",">
+            <if test="followUserId != null and followUserId != ''">
+                follow_user_id = #{followUserId},
+            </if>
+            <if test="fanUserId != null and fanUserId != ''">
+                fan_user_id = #{fanUserId},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_follow
+        where id = #{id};
+    </delete>
+
+    <delete id="deleteByFollowUserId" parameterType="UserFollow">
+        delete
+        from user_follow
+        where follow_user_id = #{followUserId}
+          and fan_user_id = #{fanUserId};
+    </delete>
+</mapper>

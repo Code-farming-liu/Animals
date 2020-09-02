@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.PetAdoptMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="petType != null and petType != ''">
+                pet_type,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="endDate != null">
+                end_date,
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                `from_user_id`,
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                `to_user_id`,
+            </if>
+            <if test="description != null and description != ''">
+                `description`,
+            </if>
+            <if test="evaluate != null and evaluate != ''">
+                `evaluate`,
+            </if>
+            <if test="price != null and price != ''">
+                `price`,
+            </if>
+            <if test="city != null and city != ''">
+                `city`,
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                `pet_info_id`,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="petType != null and petType != ''">
+                #{petType},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="endDate != null">
+                #{endDate},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                #{toUserId},
+            </if>
+            <if test="description != null and description != ''">
+                #{description},
+            </if>
+            <if test="evaluate != null and evaluate != ''">
+                #{evaluate},
+            </if>
+            <if test="price != null and price != ''">
+                #{price},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                #{petInfoId},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="PetAdopt">
+        select *
+        from pet_adopt
+        limit #{page},#{num};
+    </select>
+    <select id="selectSuccessTaskByFromUserId" resultType="PetAdopt">
+        select *
+        from pet_adopt
+        where to_user_id = #{userId}
+          and type = '1';
+    </select>
+    <select id="selectEndTaskByFromUserId" resultType="PetAdopt">
+        select *
+        from pet_adopt
+        where from_user_id = #{userId} and type = '3'
+           or type = '4';
+    </select>
+    <select id="selectDoingTaskByFromUserId" resultType="PetAdopt">
+        select *
+        from pet_adopt
+        where from_user_id = #{userId} and type = '2'
+           or type = '1';
+    </select>
+    <select id="selectById" resultType="PetAdopt" parameterType="java.lang.String">
+        select *
+        from pet_adopt
+        where id = #{id};
+    </select>
+    <select id="selectByEndInfo" resultType="PetAdopt">
+        SELECT *
+        FROM pet_adopt
+        ORDER BY id DESC
+        LIMIT 1;
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_adopt
+    </select>
+    <insert id="insertInfo" parameterType="PetAdopt">
+        insert into pet_adopt (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="PetAdopt">
+        update pet_adopt
+        <trim prefix="set" suffixOverrides=",">
+            <if test="petType != null and petType != ''">
+                pet_type = #{petType},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="endDate != null">
+                end_date = #{endDate},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                `from_user_id` = #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                `to_user_id` = #{toUserId},
+            </if>
+            <if test="description != null and description != ''">
+                `description` = #{description},
+            </if>
+            <if test="evaluate != null and evaluate != ''">
+                `evaluate` = #{evaluate},
+            </if>
+            <if test="price != null and price != ''">
+                `price` = #{price},
+            </if>
+            <if test="city != null and city != ''">
+                `city` = #{city},
+            </if>
+            <if test="petInfoId != null and petInfoId != ''">
+                `pet_info_id` = #{petInfoId},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete pa,pth
+        from pet_adopt pa
+                 left join pet_task_photo pth on pa.id = pth.pet_task_id
+        where pa.id = #{id};
+    </delete>
+</mapper>

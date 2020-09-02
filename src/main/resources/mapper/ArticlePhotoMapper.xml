@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.ArticlePhotoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                `update_user_id`,
+            </if>
+            <if test="pictureUrl != null and pictureUrl != ''">
+                `picture_url`,
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                `article_info_id`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                #{createUserId},
+            </if>
+            <if test="createDate != null">
+                #{createDate},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                #{updateUserId},
+            </if>
+            <if test="pictureUrl != null and pictureUrl != ''">
+                #{pictureUrl},
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                #{articleInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="ArticlePhoto">
+        select *
+        from article_photo
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="ArticlePhoto" parameterType="java.lang.String">
+        select *
+        from article_photo
+        where id = #{id};
+    </select>
+    <select id="selectByArticlePhotoId" resultType="ArticlePhoto" parameterType="java.lang.String">
+        select *
+        from article_photo
+        where article_info_id = #{id};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from article_photo
+    </select>
+    <insert id="insertInfo" parameterType="ArticlePhoto">
+        insert into article_photo (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateById" parameterType="ArticlePhoto">
+        update article_photo
+        <trim prefix="set" suffixOverrides=",">
+            <if test="createUserId != null and createUserId != ''">
+                create_user_id = #{createUserId},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="updateUserId != null and updateUserId != ''">
+                `update_user_id` = #{updateUserId},
+            </if>
+            <if test="pictureUrl != null and pictureUrl != ''">
+                `picture_url` = #{pictureUrl},
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                `article_info_id` = #{articleInfoId},
+            </if>
+        </trim>
+        where article_info_id = #{articleInfoId}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from article_photo
+        where id = #{id};
+    </delete>
+</mapper>

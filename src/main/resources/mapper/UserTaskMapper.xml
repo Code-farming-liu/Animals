@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserTaskMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="taskId != null and taskId != ''">
+                task_id,
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id,
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id,
+            </if>
+            <if test="type != null and type != ''">
+                type,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="taskId != null and taskId != ''">
+                #{taskId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                #{toUserId},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                #{fromUserId},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="UserTask">
+        select *
+        from user_task
+        limit #{page},#{num};
+    </select>
+    <select id="selectByFromUserId" resultType="UserTask" parameterType="java.lang.String">
+        select *
+        from user_task
+        where from_user_id = #{id}
+    </select>
+    <select id="selectWantUser" resultType="UserTask" parameterType="java.lang.String">
+        select *
+        from user_task
+        where task_id = #{taskId}
+          and type = #{type}
+    </select>
+    <select id="selectByUserTask" resultType="UserTask" parameterType="java.lang.String">
+        select *
+        from user_task
+        where id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_habit
+    </select>
+    <insert id="insertInfo" parameterType="UserTask">
+        insert into user_task (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="UserTask">
+        update user_task
+        <trim prefix="set" suffixOverrides=",">
+            <if test="taskId != null and taskId != ''">
+                task_id = #{taskId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id = #{toUserId},
+            </if>
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="isSuccess != null and isSuccess != ''">
+                is_success = #{isSuccess},
+            </if>
+        </trim>
+        where task_id = #{taskId} and type = #{type} and to_user_id = #{toUserId}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_task
+        where id = #{id};
+    </delete>
+
+</mapper>

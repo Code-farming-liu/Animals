@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.PetInfoMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="type != null and type != ''">
+                type,
+            </if>
+            <if test="kind != null and kind != ''">
+                kind,
+            </if>
+            <if test="name != null and name != ''">
+                `name`,
+            </if>
+            <if test="description != null and description != ''">
+                `description`,
+            </if>
+            <if test="petPhotoId != null and petPhotoId != ''">
+                `pet_photo_id`,
+            </if>
+            <if test="age != null and age != ''">
+                `age`,
+            </if>
+            <if test="sex != null and sex != ''">
+                `sex`,
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                `user_info_id`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+            <if test="kind != null and kind != ''">
+                #{kind},
+            </if>
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="description != null and description != ''">
+                #{description},
+            </if>
+            <if test="petPhotoId != null and petPhotoId != ''">
+                #{petPhotoId},
+            </if>
+            <if test="age != null and age != ''">
+                #{age},
+            </if>
+            <if test="sex != null and sex != ''">
+                #{sex},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                #{userInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="PetInfo">
+        select *
+        from pet_info
+        limit #{page},#{num};
+    </select>
+    <resultMap id="selectByIdMap" type="PetInfo" autoMapping="true">
+        <result column="pi_id" property="id"></result>
+        <collection property="petPhotoList" ofType="PetPhoto" autoMapping="true">
+            <result column="ph_id" property="id"></result>
+        </collection>
+    </resultMap>
+    <select id="selectById" resultMap="selectByIdMap">
+        SELECT i.*,
+               i.id pi_id,
+               p.id ph_id,
+               p.*
+        FROM pet_info i
+                 LEFT JOIN pet_photo p
+                           ON i.id = p.pet_info_id
+        where i.id = #{id}
+    </select>
+    <select id="selectByUserId" resultType="int" parameterType="java.lang.String">
+        select *
+        from user_article_praise
+        where user_info_id = #{userId}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_info
+    </select>
+    <select id="selectInfoByUserInfoId" resultType="PetInfo">
+        select *
+        from pet_info
+        where user_info_id = #{userId}
+    </select>
+    <select id="selectEndInfo" resultType="PetInfo">
+        SELECT
+            *
+        FROM
+            pet_info
+        ORDER BY
+            id DESC
+        LIMIT 1;
+    </select>
+    <insert id="insertInfo" parameterType="PetInfo">
+        insert into pet_info (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateById" parameterType="PetInfo">
+        update pet_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="kind != null and kind != ''">
+                kind = #{kind},
+            </if>
+            <if test="name != null and name != ''">
+                `name` = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                `description` = #{description},
+            </if>
+            <if test="petPhotoId != null and petPhotoId != ''">
+                `pet_photo_id` = #{petPhotoId},
+            </if>
+            <if test="age != null and age != ''">
+                `age` = #{age},
+            </if>
+            <if test="sex != null and sex != ''">
+                `sex` = #{sex},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                `user_info_id` = #{userInfoId},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        DELETE pi,
+            pp,
+            ph
+        FROM pet_info pi
+                 LEFT JOIN pet_photo pp ON pi.id = pp.pet_info_id
+                 LEFT JOIN pet_habit ph ON pi.id = ph.pet_info_id
+        WHERE pi.id = #{id}
+    </delete>
+</mapper>

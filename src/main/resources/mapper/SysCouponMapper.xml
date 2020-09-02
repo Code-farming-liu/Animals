@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.SysCouponMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="description != null and description != ''">
+                `description`,
+            </if>
+            <if test="createDate != null and createDate != ''">
+                create_date,
+            </if>
+            <if test="endDate != null and endDate != ''">
+                end_date,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="couponPetId != null and couponPetId != ''">
+                `coupon_pet_id`,
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                `create_user_id`,
+            </if>
+            <if test="petShopHospitalId != null and petShopHospitalId != ''">
+                `pet_shop_hospital_id`,
+            </if>
+            <if test="num != null and num != ''">
+                `num`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="description != null and description != ''">
+                #{description},
+            </if>
+            <if test="createDate != null and createDate != ''">
+                #{createDate},
+            </if>
+            <if test="endDate != null and endDate != ''">
+                #{endDate},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+            <if test="couponPetId != null and couponPetId != ''">
+                #{couponPetId},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                #{createUserId},
+            </if>
+            <if test="petShopHospitalId != null and petShopHospitalId != ''">
+                #{petShopHospitalId},
+            </if>
+            <if test="num != null and num != ''">
+                #{num},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="SysCoupon">
+        select *
+        from sys_coupon
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="SysCoupon" parameterType="java.lang.String">
+        select *
+        from sys_coupon
+        where id = #{id}
+    </select>
+    <select id="selectByUserId" resultType="SysCoupon" parameterType="java.lang.String">
+        select *
+        from sys_coupon
+        where create_user_id = #{userId}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from sys_coupon
+    </select>
+    <insert id="insertInfo" parameterType="SysCoupon">
+        insert into sys_coupon (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="SysCoupon">
+        update pet_shop_hospital
+        <trim prefix="set" suffixOverrides=",">
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="createDate != null and createDate != ''">
+                create_date = #{createDate},
+            </if>
+            <if test="endDate != null and endDate != ''">
+                end_date = #{endDate},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type},
+            </if>
+            <if test="couponPetId != null and couponPetId != ''">
+                `coupon_pet_id` = #{couponPetId},
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+                `create_user_id` = #{createUserId},
+            </if>
+            <if test="petShopHospitalId != null and petShopHospitalId != ''">
+                `pet_shop_hospital_id` = #{petShopHospitalId},
+            </if>
+            <if test="num != null and num != ''">
+                `num` = #{num},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from pet_shop_hospital
+        where id = #{id};
+    </delete>
+</mapper>

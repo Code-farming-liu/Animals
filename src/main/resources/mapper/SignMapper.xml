@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.SignMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                user_id,
+            </if>
+            <if test="countSign != null and countSign != ''">
+                count_sign,
+            </if>
+            <if test="mark != null and mark != ''">
+                `mark`,
+            </if>
+            <if test="monday != null and monday != ''">
+                `monday`,
+            </if>
+            <if test="tuesday != null and tuesday != ''">
+                `tuesday`,
+            </if>
+            <if test="wednesday != null and wednesday != ''">
+                `wednesday`,
+            </if>
+            <if test="thursday != null and thursday != ''">
+                `thursday`,
+            </if>
+            <if test="friday != null and friday != ''">
+                `friday`,
+            </if>
+            <if test="saturday != null and saturday != ''">
+                `saturday`,
+            </if>
+            <if test="sunday != null and sunday != ''">
+                `sunday`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                #{userId},
+            </if>
+            <if test="countSign != null and countSign != ''">
+                #{countSign},
+            </if>
+            <if test="mark != null and mark != ''">
+                #{mark},
+            </if>
+            <if test="monday != null and monday != ''">
+                #{monday},
+            </if>
+            <if test="tuesday != null and tuesday != ''">
+                #{tuesday},
+            </if>
+            <if test="wednesday != null and wednesday != ''">
+                #{wednesday},
+            </if>
+            <if test="thursday != null and thursday != ''">
+                #{thursday},
+            </if>
+            <if test="friday != null and friday != ''">
+                #{friday},
+            </if>
+            <if test="saturday != null and saturday != ''">
+                #{saturday},
+            </if>
+            <if test="sunday != null and sunday != ''">
+                #{sunday},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="SysSign">
+        select *
+        from sys_sign
+        limit #{page},#{num};
+    </select>
+
+    <select id="selectById" parameterType="java.lang.String" resultType="SysSign">
+        select *
+        from sys_sign
+        where id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from sys_sign
+    </select>
+    <select id="selectByUserId" resultType="SysSign" parameterType="java.lang.String">
+        select *
+        from sys_sign
+        where user_id = #{userId};
+    </select>
+    <insert id="insertInfo" parameterType="SysSign">
+        insert into sys_sign (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateById" parameterType="SysSign">
+        update sys_sign
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+            <if test="countSign != null and countSign != ''">
+                count_sign = #{countSign},
+            </if>
+            <if test="mark != null and mark != ''">
+                `mark` = #{mark},
+            </if>
+            <if test="monday != null and monday != ''">
+                `monday` = #{monday},
+            </if>
+            <if test="tuesday != null and tuesday != ''">
+                `tuesday` = #{tuesday},
+            </if>
+            <if test="wednesday != null and wednesday != ''">
+                `wednesday` = #{wednesday},
+            </if>
+            <if test="thursday != null and thursday != ''">
+                `thursday` = #{thursday},
+            </if>
+            <if test="friday != null and friday != ''">
+                `friday` = #{friday},
+            </if>
+            <if test="saturday != null and saturday != ''">
+                `saturday` = #{saturday},
+            </if>
+            <if test="sunday != null and sunday != ''">
+                `sunday` = #{sunday},
+            </if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from sys_sign
+        where user_id = #{id};
+    </delete>
+    <delete id="truncate">
+        truncate table sys_sign;
+    </delete>
+</mapper>

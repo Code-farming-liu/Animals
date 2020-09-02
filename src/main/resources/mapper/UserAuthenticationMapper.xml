@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.UserAuthenticationMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username,
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                id_number,
+            </if>
+            <if test="bankCardNumber != null and bankCardNumber != ''">
+                bank_card_number,
+            </if>
+            <if test="address != null and address != ''">
+                `address`,
+            </if>
+            <if test="sex != null and sex != ''">
+                `sex`,
+            </if>
+            <if test="birthday != null">
+                `birthday`,
+            </if>
+            <if test="nation != null and nation != ''">
+                `nation`,
+            </if>
+            <if test="phone != null and phone != ''">
+                `phone`,
+            </if>
+            <if test="idCardPhoto != null and idCardPhoto != ''">
+                `id_card_photo`,
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                `user_info_id`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="username != null and username != ''">
+                #{username},
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                #{idNumber},
+            </if>
+            <if test="bankCardNumber != null and bankCardNumber != ''">
+                #{bankCardNumber},
+            </if>
+            <if test="address != null and address != ''">
+                #{address},
+            </if>
+            <if test="sex != null and sex != ''">
+                #{sex},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="nation != null and nation != ''">
+                #{nation},
+            </if>
+            <if test="phone != null and phone != ''">
+                #{phone},
+            </if>
+            <if test="idCardPhoto != null and idCardPhoto != ''">
+                #{idCardPhoto},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                #{userInfoId},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="UserAuthentication">
+        select *
+        from user_business_license
+        limit #{page},#{num};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from user_authentication
+    </select>
+    <select id="selectById" parameterType="java.lang.String" resultType="UserAuthentication">
+        select *
+        from user_authentication
+        where user_info_id = #{id}
+    </select>
+    <insert id="insertInfo" parameterType="UserAuthentication">
+        insert into user_authentication
+        (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+    <update id="updateById" parameterType="UserAuthentication">
+        update user_authentication
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                id_number = #{idNumber},
+            </if>
+            <if test="bankCardNumber != null and bankCardNumber != ''">
+                bank_card_number = #{bankCardNumber},
+            </if>
+            <if test="address != null and address != ''">
+                `address` = #{address},
+            </if>
+            <if test="sex != null and sex != ''">
+                `sex` = #{sex},
+            </if>
+            <if test="birthday != null">
+                `birthday` = #{birthday},
+            </if>
+            <if test="nation != null and nation != ''">
+                `nation` = #{nation},
+            </if>
+            <if test="phone != null and phone != ''">
+                `phone` = #{phone},
+            </if>
+            <if test="idCardPhoto != null and idCardPhoto != ''">
+                `id_card_photo` = #{idCardPhoto},
+            </if>
+            <if test="isUpdate != null and isUpdate != ''">
+                `is_update` = #{isUpdate},
+            </if>
+            <if test="userInfoId != null and userInfoId != ''">
+                `user_info_id` = #{userInfoId},
+            </if>
+        </trim>
+        where user_info_id = #{userInfoId}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from user_authentication
+        where id = #{id};
+    </delete>
+</mapper>

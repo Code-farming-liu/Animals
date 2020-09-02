@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.SysNoticeMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id,
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id,
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id,
+            </if>
+            <if test="isRead != null and isRead != ''">
+                `is_read`,
+            </if>
+            <if test="content != null and content != ''">
+                `content`,
+            </if>
+            <if test="type != null and type != ''">
+                `type`,
+            </if>
+            <if test="isSuccess != null and isSuccess != ''">
+                `is_success`,
+            </if>
+            <if test="createTime != null">
+                `create_time`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                #{toUserId},
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                #{articleInfoId},
+            </if>
+            <if test="isRead != null and isRead != ''">
+                #{isRead},
+            </if>
+            <if test="content != null and content != ''">
+                #{content},
+            </if>
+            <if test="type != null and type != ''">
+                #{type},
+            </if>
+            <if test="isSuccess != null and isSuccess != ''">
+                #{isSuccess},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectByUserId" resultType="SysNotice" parameterType="java.lang.String">
+        select *
+        from sys_notice
+        where to_user_id = #{userId}
+    </select>
+    <select id="selectAll" resultType="SysNotice">
+        select *
+        from sys_notice
+        limit #{page}, #{num};
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from sys_notice
+    </select>
+    <select id="selectById" parameterType="java.lang.String" resultType="SysNotice">
+        select *
+        from sys_notice
+        where id = #{id}
+    </select>
+    <select id="selectEndNotice" resultType="SysNotice">
+        SELECT
+            *
+        FROM
+            sys_notice
+        ORDER BY
+            id DESC
+        LIMIT 1;
+
+    </select>
+    <insert id="insertInfo" parameterType="SysNotice">
+        insert into sys_notice (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="SysNotice">
+        update sys_notice
+        <trim prefix="set" suffixOverrides=",">
+            <if test="fromUserId != null and fromUserId != ''">
+                from_user_id = #{fromUserId},
+            </if>
+            <if test="toUserId != null and toUserId != ''">
+                to_user_id = #{toUserId},
+            </if>
+            <if test="articleInfoId != null and articleInfoId != ''">
+                article_info_id = #{articleInfoId},
+            </if>
+            <if test="isRead != null and isRead != ''">
+                `is_read` = #{isRead},
+            </if>
+            <if test="content != null and content != ''">
+                `content` = #{content},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type},
+            </if>
+            <if test="isSuccess != null and isSuccess != ''">
+                `is_success` = #{isSuccess},
+            </if>
+            <if test="createTime != null">
+                `create_time` = #{createTime},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from sys_notice
+        where id = #{id};
+    </delete>
+
+</mapper>

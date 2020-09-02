@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liu.animal.app.mapper.PetHabitMapper">
+    <sql id="key">
+        <trim suffixOverrides=",">
+            <if test="petInfoId != null and petInfoId != ''">
+                pet_info_id,
+            </if>
+            <if test="petSelectSkill != null and petSelectSkill != ''">
+                pet_select_skill,
+            </if>
+            <if test="petFeedPoints != null and petFeedPoints != ''">
+                pet_feed_points,
+            </if>
+            <if test="petTrainSkill != null and petTrainSkill != ''">
+                `pet_train_skill`,
+            </if>
+            <if test="petCommonIllness != null and petCommonIllness != ''">
+                `pet_common_illness`,
+            </if>
+        </trim>
+    </sql>
+    <sql id="value">
+        <trim suffixOverrides=",">
+            <if test="petInfoId != null and petInfoId != ''">
+                #{petInfoId},
+            </if>
+            <if test="petSelectSkill != null and petSelectSkill != ''">
+                #{petSelectSkill},
+            </if>
+            <if test="petFeedPoints != null and petFeedPoints != ''">
+                #{petFeedPoints},
+            </if>
+            <if test="petTrainSkill != null and petTrainSkill != ''">
+                #{petTrainSkill},
+            </if>
+            <if test="petCommonIllness != null and petCommonIllness != ''">
+                #{petCommonIllness},
+            </if>
+        </trim>
+    </sql>
+    <select id="selectAll" resultType="PetHabit">
+        select *
+        from pet_habit
+        limit #{page},#{num};
+    </select>
+    <select id="selectById" resultType="PetHabit" parameterType="java.lang.String">
+        select *
+        from pet_habit
+        where id = #{id}
+    </select>
+    <select id="selectByPetInfoId" resultType="PetHabit" parameterType="java.lang.String">
+        select *
+        from pet_habit
+        where pet_info_id = #{id}
+    </select>
+    <select id="count" resultType="String">
+        select count(*)
+        from pet_habit
+    </select>
+    <insert id="insertInfo" parameterType="PetHabit">
+        insert into pet_habit (<include refid="key"></include>)
+        values (<include refid="value"></include>);
+    </insert>
+
+    <update id="updateById" parameterType="PetHabit">
+        update article_comment
+        <trim prefix="set" suffixOverrides=",">
+            <if test="petInfoId != null and petInfoId != ''">
+                pet_info_id = #{petInfoId},
+            </if>
+            <if test="petSelectSkill != null and petSelectSkill != ''">
+                pet_select_skill = #{petSelectSkill},
+            </if>
+            <if test="petFeedPoints != null and petFeedPoints != ''">
+                pet_feed_points = #{petFeedPoints},
+            </if>
+            <if test="petTrainSkill != null and petTrainSkill != ''">
+                `pet_train_skill` = #{petTrainSkill},
+            </if>
+            <if test="petCommonIllness != null and petCommonIllness != ''">
+                `pet_common_illness` = #{petCommonIllness},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deleteById" parameterType="java.lang.String">
+        delete
+        from article_comment
+        where id = #{id};
+    </delete>
+</mapper>
