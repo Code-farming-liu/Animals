@@ -80,9 +80,9 @@ public class GetJsonUtil {
         try {
             htmlEmail.addTo(toUserEmail);
             //设置发送人的邮箱 和用户名（可以随便填写）
-            htmlEmail.setFrom("2258076697@qq.com", "宠它");
+            htmlEmail.setFrom("填写发件人的邮箱", "宠它");
             //设置邮箱的地址和授权码（自己设置开启pop3）
-            htmlEmail.setAuthentication("2258076697@qq.com", "cjxiukpamsahdihf");
+            htmlEmail.setAuthentication("填写发件人的邮箱", "cjxiukpamsahdihf");
             //设置发送的标题
             htmlEmail.setSubject("animals验证码");
             htmlEmail.setSSLOnConnect(true);
