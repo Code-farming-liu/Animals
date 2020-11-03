@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileToUrlUtil {
     public static String uploadImage(MultipartFile multipartFile) {
-        String imgUrl = "http://47.95.252.130";
+        String imgUrl = "http://自己的服务器ip";
         //上传图片到服务器
         //获得配置文件的路径
         //配置fdfs的全局链接地址
